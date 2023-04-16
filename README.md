@@ -13,8 +13,8 @@ Erstellung einer Webapplikation bzw. einer API
 
 ## Zum Projekt
 
-Thema des Projekts: Ausgaben-Tracker <br>
-Zweck: Anwendung zum Erfassen von getätigten Ausgaben <br>
+**Thema des Projekts:** Ausgaben-Tracker <br>
+**Zweck:** Anwendung zum Erfassen von getätigten Ausgaben <br>
 <br>
 erstellt von Felix Mayer, PIB20 <br>
 <br>
