@@ -1,0 +1,119 @@
+#Dieses Skript stellt eine API zur Verfügung, die es erlaubt, Ausgaben in einer Datenbank zu speichern und zu verwalten.
+#Die API ist in Python mit dem Flask-Framework geschrieben.
+#Die Datenbank ist in SQLite erstellt und wird mit SQLAlchemy verwaltet.
+#Die Funktionen der API (GET, POST, PUT, DELETE) wurden mit der Anwendung Postman getestet.
+
+#Die API kann ueber die Datei ./start.sh gestartet werden.
+#Die API ist ueber http://127.0.0.1:5000/ erreichbar.
+
+#Importieren der noetigen Bibliotheken
+from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
+
+#Erstellen der Flask-App
+app = Flask(__name__)
+
+#Konfiguration der Datenbank
+#Angabe des Dateipfads zur Datenbank und des Datenbanktyps (SQLite)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ausgaben.db'
+
+#Erstellen der Datenbank
+db = SQLAlchemy(app)
+
+#Datenbankmodell erstellen
+class Ausgaben(db.Model):
+    #Spalte für die ID (Primärschlüssel)
+    id = db.Column(db.Integer, primary_key=True)
+    #Spalte für den Namen der Ausgabe
+    name = db.Column(db.String(80), nullable=False)
+    #Spalte für den Betrag der Ausgabe
+    #Numeric(10,2) = 10 Stellen insgesamt, 2 Stellen nach dem Komma
+    betrag = db.Column(db.Numeric(10,2), nullable=False)
+    #Spalte für das Datum der Ausgabe
+    #Format als String da DateTime die Angabe einer genauen Zeit erfordert
+    datum = db.Column(db.String(9))
+
+    def __repr__(self):
+        #Rückgabe der Daten als String
+        return f"{self.name} - {self.betrag} - {self.datum}"
+
+#Erstellen der Route
+@app.route("/")
+#Erstellen der Funktion
+def index():
+    return "Hallo"
+
+#Erstellen der Route
+#GET-Request für alle Ausgaben
+@app.route("/ausgaben")
+#Funktion für die GET-Methode
+def get_ausgaben():
+    ausgaben = Ausgaben.query.all()
+
+    #Ausgabe der Daten in JSON-Format
+    output = []
+    #Durchlaufen der Datenbank
+    for ausgabe in ausgaben:
+        #Erstellen eines JSON-Objekts
+        ausgabe_data = {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum}
+        #Liste mit den Daten anhaengen
+        output.append(ausgabe_data)
+
+    #Rückgabe der Daten
+    return {"Ausgaben": output}
+
+#GET Ausgaben nach ID
+@app.route('/ausgaben/<id>')
+#Funktion für die GET-Methode
+def get_ausgabe(id):
+    #Ausgabe der Daten in JSON-Format
+    ausgabe = Ausgaben.query.get_or_404(id)
+    #Rueckgabe der Daten als JSON-Objekt
+    return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum}
+
+#POST-Methode für Ausgaben
+@app.route('/ausgaben', methods=['POST'])
+#Funktion für die POST-Methode
+def add_ausgabe():
+    #Erstellen eines neuen Ausgabe-Objekts
+    ausgabe = Ausgaben(name=request.json['name'], betrag=request.json['betrag'], datum=request.json['datum'])
+    #Hinzufügen des Objekts zur Datenbank
+    db.session.add(ausgabe)
+    #Speichern der Änderungen
+    db.session.commit()
+    #als Rueckgabe wird die ID der neuen Ausgabe ausgegeben
+    return {'id': ausgabe.id}
+
+#PUT-Methode für Ausgaben
+@app.route('/ausgaben/<id>', methods=['PUT'])
+#Funktion für die PUT-Methode
+def update_ausgabe(id):
+    #Ausgabe der Daten in JSON-Format
+    ausgabe = Ausgaben.query.get(id)
+    #Fehlermeldung wenn ID nicht gefunden wird
+    if ausgabe is None:
+        return {"Fehler": "ID nicht gefunden"}
+    #Ueberschreiben der Daten mit den neuen Werten
+    ausgabe.name = request.json['name']
+    ausgabe.betrag = request.json['betrag']
+    ausgabe.datum = request.json['datum']
+    #Speichern der Änderungen
+    db.session.commit()
+    #Rueckgabemeldung bei erfolgreicher Aktualisierung
+    return {"Erfolg": "Ausgabedaten aktualisiert"}
+
+#DELETE-Methode für Ausgaben
+@app.route('/ausgaben/<id>', methods=['DELETE'])
+#Funktion für die DELETE-Methode
+def delete_ausgabe(id):
+    #Ausgabe der Daten in JSON-Format
+    ausgabe = Ausgaben.query.get(id)
+    #Fehlermeldung wenn ID nicht gefunden wird
+    if ausgabe is None:
+        return {"Fehler": "ID nicht gefunden"}
+    #Loeschen der Daten aus der Datenbank
+    db.session.delete(ausgabe)
+    #Speichern der Änderungen
+    db.session.commit()
+    #Rueckgabemeldung bei erfolgreicher Loeschung
+    return {"Erfolg": "Ausgabedaten gelöscht"}
