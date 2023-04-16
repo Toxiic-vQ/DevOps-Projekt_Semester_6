@@ -1,6 +1,6 @@
 # DevOps-Projekt Semester 6
 
-Titel: Erstellung einer Webapplikation bzw. einer API
+Erstellung einer Webapplikation bzw. einer API
 
 ## Inhaltsverzeichnis
 
@@ -8,12 +8,14 @@ Titel: Erstellung einer Webapplikation bzw. einer API
 - [Zur API](#zur-api)
 - [Funktionen der API](#funktionen-der-api)
 - [API mit Docker ausführen](#api-mit-docker-ausführen)
-- [API lokal ausführen](#api-lokal-ohne-docker-ausführen)
-
+- [Zur Datenbank](#zur-datenbank)
+<br>
 
 ## Zum Projekt
 
 Thema des Projekts: Ausgaben-Tracker <br>
+Zweck: Anwendung zum Erfassen von getätigten Ausgaben <br>
+<br>
 erstellt von Felix Mayer, PIB20 <br>
 <br>
 
@@ -47,12 +49,14 @@ Zur Ausführung der Anwendung in einem Docker-Container wurde speziell ein Docke
 Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
 <br>
 
-### API lokal (ohne Docker) ausführen
+## Zur Datenbank
 
-Hierfür müssen die notwendigen Python-Installationen lokal vorhanden sein. <br>
+Die Datenbank basiert auf SQLite und ist innerhalb der Datei instance/ausgaben.db gespeichert. <br>
+Aufgrund der geringen Komplexität der Webanwendung enthält die Datenbank nur eine Tabelle. <br>
 <br>
-1. Dateien aus diesem Verzeichnis lokal herunterladen <br>
-2. Ins Verzeichnis wechseln <br>
-3. Flask-Anwendung mit dem Skript start.sh ausführen <br>
-<br>
-Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
+| Spalte | Eigenschaften |
+|--------|---------------|
+| id     | Integer, primary_key=True |
+| name   | String(80), nullable=False |
+| betrag | Numeric(10,2), nullable=False|
+| datum  | String(9)|
