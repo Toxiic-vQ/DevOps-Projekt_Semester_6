@@ -34,8 +34,8 @@ Die API ist ueber http://127.0.0.1:5000/ lokal erreichbar. (Port 5000 ist Standa
 |----------|-------|--------------|
 | GET | http://127.0.0.1:5000/ausgaben | alle Ausgaben anzeigen |
 | GET | http://127.0.0.1:5000/ausgaben/id | eine bestimmte Ausgabe anzeigen |
-| POST | http://127.0.0.1:5000/ausgaben | neue Ausgabe hinzufügen |
-| PUT | http://127.0.0.1:5000/ausgaben/id | bestimme Ausgabe ändern |
+| POST | http://127.0.0.1:5000/ausgaben | neue Ausgabe hinzufügen (**Dateien müssen als JSON übergeben werden**)|
+| PUT | http://127.0.0.1:5000/ausgaben/id | bestimme Ausgabe ändern (**Dateien müssen als JSON übergeben werden**)|
 | DELETE | http://127.0.0.1:5000/ausgaben/id | bestimme Ausgabe löschen |
 <br>
 
