@@ -1,4 +1,4 @@
-#Dieses Skript stellt eine API zur Verfügung, die es erlaubt, Ausgaben in einer Datenbank zu speichern und zu verwalten.
+#Dieses Skript stellt eine API zur Verfuegung, die es erlaubt, Ausgaben in einer Datenbank zu speichern und zu verwalten.
 #Die API ist in Python mit dem Flask-Framework geschrieben.
 #Die Datenbank ist in SQLite erstellt und wird mit SQLAlchemy verwaltet.
 #Die Funktionen der API (GET, POST, PUT, DELETE) wurden mit der Anwendung Postman getestet.
@@ -22,19 +22,19 @@ db = SQLAlchemy(app)
 
 #Datenbankmodell erstellen
 class Ausgaben(db.Model):
-    #Spalte für die ID (Primärschlüssel)
+    #Spalte fuer die ID (Primaerschluessel)
     id = db.Column(db.Integer, primary_key=True)
-    #Spalte für den Namen der Ausgabe
+    #Spalte fuer den Namen der Ausgabe
     name = db.Column(db.String(80), nullable=False)
-    #Spalte für den Betrag der Ausgabe
+    #Spalte fuer den Betrag der Ausgabe
     #Numeric(10,2) = 10 Stellen insgesamt, 2 Stellen nach dem Komma
     betrag = db.Column(db.Numeric(10,2), nullable=False)
-    #Spalte für das Datum der Ausgabe
+    #Spalte fuer das Datum der Ausgabe
     #Format als String da DateTime die Angabe einer genauen Zeit erfordert
     datum = db.Column(db.String(9))
 
     def __repr__(self):
-        #Rückgabe der Daten als String
+        #Rueckgabe der Daten als String
         return f"{self.name} - {self.betrag} - {self.datum}"
 
 #Erstellen der Route
@@ -44,9 +44,9 @@ def index():
     return "Hallo"
 
 #Erstellen der Route
-#GET-Request für alle Ausgaben
+#GET-Request fuer alle Ausgaben
 @app.route("/ausgaben")
-#Funktion für die GET-Methode
+#Funktion fuer die GET-Methode
 def get_ausgaben():
     ausgaben = Ausgaben.query.all()
 
@@ -59,34 +59,34 @@ def get_ausgaben():
         #Liste mit den Daten anhaengen
         output.append(ausgabe_data)
 
-    #Rückgabe der Daten
+    #Rueckgabe der Daten
     return {"Ausgaben": output}
 
 #GET Ausgaben nach ID
 @app.route('/ausgaben/<id>')
-#Funktion für die GET-Methode
+#Funktion fuer die GET-Methode
 def get_ausgabe(id):
     #Ausgabe der Daten in JSON-Format
     ausgabe = Ausgaben.query.get_or_404(id)
     #Rueckgabe der Daten als JSON-Objekt
     return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum}
 
-#POST-Methode für Ausgaben
+#POST-Methode fuer Ausgaben
 @app.route('/ausgaben', methods=['POST'])
-#Funktion für die POST-Methode
+#Funktion fuer die POST-Methode
 def add_ausgabe():
     #Erstellen eines neuen Ausgabe-Objekts
     ausgabe = Ausgaben(name=request.json['name'], betrag=request.json['betrag'], datum=request.json['datum'])
-    #Hinzufügen des Objekts zur Datenbank
+    #Hinzufuegen des Objekts zur Datenbank
     db.session.add(ausgabe)
-    #Speichern der Änderungen
+    #Speichern der Aenderungen
     db.session.commit()
     #als Rueckgabe wird die ID der neuen Ausgabe ausgegeben
     return {'id': ausgabe.id}
 
-#PUT-Methode für Ausgaben
+#PUT-Methode fuer Ausgaben
 @app.route('/ausgaben/<id>', methods=['PUT'])
-#Funktion für die PUT-Methode
+#Funktion fuer die PUT-Methode
 def update_ausgabe(id):
     #Ausgabe der Daten in JSON-Format
     ausgabe = Ausgaben.query.get(id)
@@ -97,14 +97,14 @@ def update_ausgabe(id):
     ausgabe.name = request.json['name']
     ausgabe.betrag = request.json['betrag']
     ausgabe.datum = request.json['datum']
-    #Speichern der Änderungen
+    #Speichern der Aenderungen
     db.session.commit()
     #Rueckgabemeldung bei erfolgreicher Aktualisierung
     return {"Erfolg": "Ausgabedaten aktualisiert"}
 
-#DELETE-Methode für Ausgaben
+#DELETE-Methode fuer Ausgaben
 @app.route('/ausgaben/<id>', methods=['DELETE'])
-#Funktion für die DELETE-Methode
+#Funktion fuer die DELETE-Methode
 def delete_ausgabe(id):
     #Ausgabe der Daten in JSON-Format
     ausgabe = Ausgaben.query.get(id)
@@ -113,7 +113,7 @@ def delete_ausgabe(id):
         return {"Fehler": "ID nicht gefunden"}
     #Loeschen der Daten aus der Datenbank
     db.session.delete(ausgabe)
-    #Speichern der Änderungen
+    #Speichern der Aenderungen
     db.session.commit()
     #Rueckgabemeldung bei erfolgreicher Loeschung
-    return {"Erfolg": "Ausgabedaten gelöscht"}
+    return {"Erfolg": "Ausgabedaten geloescht"}
