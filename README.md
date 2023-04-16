@@ -30,11 +30,13 @@ Die API ist ueber http://127.0.0.1:5000/ lokal erreichbar. (Port 5000 ist Standa
 
 ### Funktionen der API
 
-GET http://127.0.0.1:5000/ausgaben        --> alle Ausgaben anzeigen <br>
-GET http://127.0.0.1:5000/ausgaben/id     --> eine bestimmte Ausgabe anzeigen <br>
-POST http://127.0.0.1:5000/ausgaben       --> neue Ausgabe hinzufügen <br>
-PUT http://127.0.0.1:5000/ausgaben/id     --> bestimme Ausgabe ändern <br>
-DELETE http://127.0.0.1:5000/ausgaben/id  --> bestimme Ausgabe löschen <br>
+| Funktion | Route | Beschreibung |
+|----------|-------|--------------|
+| GET | http://127.0.0.1:5000/ausgaben | alle Ausgaben anzeigen |
+| GET | http://127.0.0.1:5000/ausgaben/id | eine bestimmte Ausgabe anzeigen |
+| POST | http://127.0.0.1:5000/ausgaben | neue Ausgabe hinzufügen |
+| PUT | http://127.0.0.1:5000/ausgaben/id | bestimme Ausgabe ändern |
+| DELETE | http://127.0.0.1:5000/ausgaben/id | bestimme Ausgabe löschen |
 <br>
 
 ### API mit Docker ausführen
