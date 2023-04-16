@@ -25,6 +25,7 @@ Die Funktionen der API (GET, POST, PUT, DELETE) wurden mit der Anwendung Postman
 <br>
 Die API ist ueber http://127.0.0.1:5000/ lokal erreichbar. (Port 5000 ist Standard für Flask-Anwendungen) <br>
 <br>
+
 ### Funktionen der API
 
 GET http://127.0.0.1:5000/ausgaben        --> alle Ausgaben anzeigen <br>
@@ -33,6 +34,7 @@ POST http://127.0.0.1:5000/ausgaben       --> neue Ausgabe hinzufügen <br>
 PUT http://127.0.0.1:5000/ausgaben/id     --> bestimme Ausgabe ändern <br>
 DELETE http://127.0.0.1:5000/ausgaben/id  --> bestimme Ausgabe löschen <br>
 <br>
+
 ### API mit Docker ausführen
 
 Zur Ausführung der Anwendung in einem Docker-Container wurde speziell ein Dockerfile angefertigt. <br>
@@ -44,6 +46,7 @@ Zur Ausführung der Anwendung in einem Docker-Container wurde speziell ein Docke
 <br>
 Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
 <br>
+
 ### API lokal (ohne Docker) ausführen
 
 Hierfür müssen die notwendigen Python-Installationen lokal vorhanden sein. <br>
