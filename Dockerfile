@@ -21,4 +21,5 @@ RUN pipenv install --system --deploy
 EXPOSE 5000
 
 #Starten der Anwendung
-ENTRYPOINT ["/usr/src/app/start.sh"]
+#ENTRYPOINT ["/usr/src/app/start.sh"]
+CMD [ "flask", "run","--host","0.0.0.0","--port","5000"]
