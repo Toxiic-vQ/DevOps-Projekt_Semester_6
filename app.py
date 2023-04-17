@@ -7,7 +7,7 @@
 #Die API ist ueber http://127.0.0.1:5000/ erreichbar.
 
 #Importieren der noetigen Bibliotheken
-from flask import Flask, request
+from flask import Flask, request, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 #Erstellen der Flask-App
@@ -15,7 +15,9 @@ app = Flask(__name__)
 
 #Konfiguration der Datenbank
 #Angabe des Dateipfads zur Datenbank und des Datenbanktyps (SQLite)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ausgaben.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+#Deaktivieren der Warnung, dass die Datenbank veraendert wird
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #Erstellen der Datenbank
 db = SQLAlchemy(app)
@@ -31,17 +33,30 @@ class Ausgaben(db.Model):
     betrag = db.Column(db.Numeric(10,2), nullable=False)
     #Spalte fuer das Datum der Ausgabe
     #Format als String da DateTime die Angabe einer genauen Zeit erfordert
-    datum = db.Column(db.String(9))
+    datum = db.Column(db.String(9), nullable=False)
+    #Kategorie der Ausgabe
+    kategorie = db.Column(db.String(80), nullable=False)
 
+    #Funktion zum Erstellen eines neuen Objekts
+    def __init__(self, name, betrag, datum, kategorie):
+        #Uebergeben der Werte an die Attribute
+        self.name = name
+        self.betrag = betrag
+        self.datum = datum
+        self.kategorie = kategorie
+
+    #Funktion zum Erstellen eines Strings mit den Daten des Objekts
     def __repr__(self):
         #Rueckgabe der Daten als String
-        return f"{self.name} - {self.betrag} - {self.datum}"
+        return f"{self.name} - {self.betrag} - {self.datum} - {self.kategorie}"
+
 
 #Erstellen der Route
 @app.route("/")
 #Erstellen der Funktion
 def index():
-    return "Hallo"
+    #return "Hallo"
+    return render_template("index.html")
 
 #Erstellen der Route
 #GET-Request fuer alle Ausgaben
@@ -55,7 +70,7 @@ def get_ausgaben():
     #Durchlaufen der Datenbank
     for ausgabe in ausgaben:
         #Erstellen eines JSON-Objekts
-        ausgabe_data = {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum}
+        ausgabe_data = {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
         #Liste mit den Daten anhaengen
         output.append(ausgabe_data)
 
@@ -69,14 +84,14 @@ def get_ausgabe(id):
     #Ausgabe der Daten in JSON-Format
     ausgabe = Ausgaben.query.get_or_404(id)
     #Rueckgabe der Daten als JSON-Objekt
-    return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum}
+    return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
 
 #POST-Methode fuer Ausgaben
 @app.route('/ausgaben', methods=['POST'])
 #Funktion fuer die POST-Methode
 def add_ausgabe():
     #Erstellen eines neuen Ausgabe-Objekts
-    ausgabe = Ausgaben(name=request.json['name'], betrag=request.json['betrag'], datum=request.json['datum'])
+    ausgabe = Ausgaben(name=request.json['name'], betrag=request.json['betrag'], datum=request.json['datum'], kategorie=request.json['kategorie'])
     #Hinzufuegen des Objekts zur Datenbank
     db.session.add(ausgabe)
     #Speichern der Aenderungen
@@ -97,6 +112,7 @@ def update_ausgabe(id):
     ausgabe.name = request.json['name']
     ausgabe.betrag = request.json['betrag']
     ausgabe.datum = request.json['datum']
+    ausgabe.kategorie = request.json['kategorie']
     #Speichern der Aenderungen
     db.session.commit()
     #Rueckgabemeldung bei erfolgreicher Aktualisierung

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Willkommen beim Ausgaben-Tracker {% endblock %}</h1>
+
+        {% for ausgabe in Ausgaben %}
+            <a href="#">
+                <h2>{{ post['title'] }}</h2>
+            </a>
+            <span class="badge badge-primary">{{ post['created'] }}</span>
+            <hr>
+        {% endfor %}
+
+        <br>
+        <br>
+        <br>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Betrag</th>
+                <th>Datum</th>
+                <th></th>
+                <th></th>
+            </tr>
+            {% for ausgabe in ausgaben %}
+            <tr>
+                <td>{{ ausgabe[0] }}</td>
+                <td>{{ ausgabe[1] }}</td>
+                <td>{{ ausgabe[2] }}</td>
+                <td>{{ ausgabe[3] }}</td>
+                <td><a href="/edit/{{ ausgabe[0] }}">Bearbeiten</a></td>
+                <td><a href="/delete/{{ ausgabe[0] }}">Löschen</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endblock %}
