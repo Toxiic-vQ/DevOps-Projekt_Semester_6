@@ -6,7 +6,6 @@ Erstellung einer Webapplikation bzw. einer API
 
 - [Zum Projekt](#zum-projekt)
 - [Zur API](#zur-api)
-- [Funktionen der API](#funktionen-der-api)
 - [API mit Docker ausführen](#api-mit-docker-ausführen)
 - [Zur Datenbank](#zur-datenbank)
 <br>
@@ -16,27 +15,15 @@ Erstellung einer Webapplikation bzw. einer API
 **Thema des Projekts:** Ausgaben-Tracker <br>
 **Zweck:** Anwendung zum Erfassen von getätigten Ausgaben <br>
 <br>
-erstellt von Felix Mayer, PIB20 <br>
-<br>
 
 ## Zur API
 
 Die API ist in Python mit dem Flask-Framework geschrieben. <br>
 Die Datenbank ist in SQLite erstellt und wird mit SQLAlchemy verwaltet. <br>
-Die Funktionen der API (GET, POST, PUT, DELETE) wurden mit der Anwendung Postman getestet. <br>
 <br>
 Die API ist ueber http://127.0.0.1:5000/ lokal erreichbar. (Port 5000 ist Standard für Flask-Anwendungen) <br>
 <br>
 
-### Funktionen der API
-
-| Funktion | Route | Beschreibung |
-|----------|-------|--------------|
-| GET | http://127.0.0.1:5000/ausgaben | alle Ausgaben anzeigen |
-| GET | http://127.0.0.1:5000/ausgaben/id | eine bestimmte Ausgabe anzeigen |
-| POST | http://127.0.0.1:5000/ausgaben | neue Ausgabe hinzufügen <br>(**Daten müssen als JSON übergeben werden**)|
-| PUT | http://127.0.0.1:5000/ausgaben/id | bestimme Ausgabe ändern <br>(**Daten müssen als JSON übergeben werden**)|
-| DELETE | http://127.0.0.1:5000/ausgaben/id | bestimme Ausgabe löschen |
 <br>
 
 ### API mit Docker ausführen
@@ -61,4 +48,5 @@ Aufgrund der geringen Komplexität der Webanwendung enthält die Datenbank nur e
 | id     | Integer, primary_key=True |
 | name   | String(80), nullable=False |
 | betrag | Numeric(10,2), nullable=False|
-| datum  | String(9)|
+| datum  | String(9), nullable=False|
+| kategorie | db.String(80), nullable=False |
