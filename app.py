@@ -101,8 +101,8 @@ def add_ausgabe():
 
 #Aendern der PUT-Methode auf POST
 #die Implementierung im Rahmen dieses Projekts mit PUT funktioniert nicht
-#aufgrund von Problemen in der index.html
-#andere untersuchte Flask-Projekte nutzen ebenfalls POST fuer die PUT-Methode
+#aufgrund von Problemen in der index.html, da in HTML nur GET und POST moeglich sind
+#andere untersuchte Flask-Projekte (mit HTML-Frontend) nutzen ebenfalls POST fuer die PUT-Methode
 @app.route('/update/', methods=['GET','POST'])
 def update_ausgabe():
 
