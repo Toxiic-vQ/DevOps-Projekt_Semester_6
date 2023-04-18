@@ -1,7 +1,6 @@
 #Dieses Skript stellt eine API zur Verfuegung, die es erlaubt, Ausgaben in einer Datenbank zu speichern und zu verwalten.
 #Die API ist in Python mit dem Flask-Framework geschrieben.
 #Die Datenbank ist in SQLite erstellt und wird mit SQLAlchemy verwaltet.
-#Die Funktionen der API (GET, POST, PUT, DELETE) wurden mit der Anwendung Postman getestet.
 
 #Die API kann ueber die Datei ./start.sh gestartet werden.
 #Die API ist ueber http://127.0.0.1:5000/ erreichbar.
@@ -12,6 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 #Erstellen der Flask-App
 app = Flask(__name__)
+
 #Schluessel fuer die Verschluesselung
 #notwendig fuer Flash-Nachrichten
 app.secret_key = "secret key"
