@@ -79,22 +79,51 @@ def add_ausgabe():
     return redirect(url_for('index'))
 
 #PUT-Methode fuer Ausgaben
-@app.route('/update/<id>', methods=['PUT'])
+#@app.route('/update/<id>', methods=['PUT'])
 #Funktion fuer die PUT-Methode
-def update_ausgabe(id):
-    #Auslesen der Daten aus der Datenbank
-    ausgabe = Ausgaben.query.get(id)
-    #Fehlermeldung wenn ID nicht gefunden wird
-    if ausgabe is None:
-        return {"Fehler": "ID nicht gefunden"}
-    #Ueberschreiben der Daten mit den neuen Werten
-    ausgabe = Ausgaben(name=request.form['name'], betrag=request.form['betrag'], datum=request.form['datum'], kategorie=request.form['kategorie'])
-    #Speichern der Aenderungen
-    db.session.commit()
-    #Rueckgabemeldung bei erfolgreicher Aktualisierung
-    #Flash-Nachricht bei erfolgreicher Aktualisierung
-    flash('Ausgabe erfolgreich aktualisiert')
-    return {"Erfolg": "Ausgabedaten aktualisiert"}
+#def update_ausgabe(id):
+#    #Auslesen der Daten aus der Datenbank
+#    ausgabe = Ausgaben.query.get(id)
+#    #Fehlermeldung wenn ID nicht gefunden wird
+#    if ausgabe is None:
+#        return {"Fehler": "ID nicht gefunden"}
+#    #Ueberschreiben der Daten mit den neuen Werten
+#    ausgabe.name = request.form['name']
+#    ausgabe.betrag = request.form['betrag']
+#    ausgabe.datum = request.form['datum']
+#    ausgabe.kategorie = request.form['kategorie']
+#    #Speichern der Aenderungen
+#    db.session.commit()
+#    #Flash-Nachricht bei erfolgreicher Aktualisierung
+#    flash('Ausgabe erfolgreich aktualisiert')
+#    #Rueckgabemeldung bei erfolgreicher Aktualisierung
+#    return {"Erfolg": "Ausgabedaten aktualisiert"}
+
+#Aendern der PUT-Methode auf POST
+#die Implementierung im Rahmen dieses Projekts mit PUT funktioniert nicht
+#aufgrund von Problemen in der index.html
+#andere untersuchte Flask-Projekte nutzen ebenfalls POST fuer die PUT-Methode
+@app.route('/update/', methods=['GET','POST'])
+def update_ausgabe():
+
+    if request.method == 'POST':
+        #Auslesen der Daten aus der Datenbank
+        ausgabe = Ausgaben.query.get(request.form.get('id'))
+        #Fehlermeldung wenn ID nicht gefunden wird
+        if ausgabe is None:
+            return {"Fehler": "ID nicht gefunden"}
+        #Ueberschreiben der Daten mit den neuen Werten
+        ausgabe.name = request.form['name']
+        ausgabe.betrag = request.form['betrag']
+        ausgabe.datum = request.form['datum']
+        ausgabe.kategorie = request.form['kategorie']
+        #Speichern der Aenderungen
+        db.session.commit()
+
+        #Flash-Nachricht bei erfolgreicher Aktualisierung
+        flash('Ausgabe erfolgreich aktualisiert')
+        #Rueckgabemeldung bei erfolgreicher Aktualisierung
+        return redirect(url_for('index'))
 
 #DELETE-Methode fuer Ausgaben
 @app.route('/delete/<id>', methods=['DELETE'])
