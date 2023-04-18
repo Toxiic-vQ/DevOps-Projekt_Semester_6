@@ -63,34 +63,6 @@ def index():
     #Rueckgabe der Daten an die HTML-Seite
     return render_template("index.html", eintraege = alle_ausgaben)
 
-#Erstellen der Route
-#GET-Request fuer alle Ausgaben
-#@app.route("/ausgaben")
-#Funktion fuer die GET-Methode
-#def get_ausgaben():
-#    ausgaben = Ausgaben.query.all()
-
-    #Ausgabe der Daten in JSON-Format
-#    output = []
-    #Durchlaufen der Datenbank
-#    for ausgabe in ausgaben:
-#        #Erstellen eines JSON-Objekts
-#        ausgabe_data = {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
-#        #Liste mit den Daten anhaengen
-#        output.append(ausgabe_data)
-
-    #Rueckgabe der Daten
-#    return {"Ausgaben": output}
-
-#GET Ausgaben nach ID
-#@app.route('/ausgaben/<id>')
-#Funktion fuer die GET-Methode
-#def get_ausgabe(id):
-    #Ausgabe der Daten in JSON-Format
-#    ausgabe = Ausgaben.query.get_or_404(id)
-    #Rueckgabe der Daten als JSON-Objekt
-#    return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
-
 #POST-Methode fuer Ausgaben
 @app.route('/ausgaben', methods=['POST'])
 #Funktion fuer die POST-Methode
@@ -101,53 +73,28 @@ def add_ausgabe():
     db.session.add(ausgabe)
     #Speichern der Aenderungen
     db.session.commit()
-    #Flash
+    #Flash-Nachricht bei erfolgreicher Hinzufuegung
     flash('Ausgabe erfolgreich hinzugefuegt')
-
+    #Rueckgabe der Daten an die HTML-Seite
     return redirect(url_for('index'))
 
-#Ausgaben aktualisieren mit GET und POST
-@app.route('/update', methods=['GET', 'POST'])
-def update_ausgabe():
-    if request.method == 'POST':
-        #Datensatz mit der ID auslesen
-        ausgabe = Ausgaben.query.get(request.form.get('id'))
-        #Ueberschreiben der Daten mit den neuen Werten
-        ausgabe.name = request.form['name']
-        ausgabe.betrag = request.form['betrag']
-        ausgabe.datum = request.form['datum']
-        ausgabe.kategorie = request.form['kategorie']
-        #Speichern der Aenderungen
-        db.session.commit()
-        #Flash-Nachricht bei erfolgreicher Aktualisierung
-        flash('Ausgabe erfolgreich aktualisiert')
-
-        return redirect(url_for('index'))
-    else:
-        return redirect(url_for('index'))
-
-
-
-
-
 #PUT-Methode fuer Ausgaben
-#@app.route('/ausgaben/<id>', methods=['PUT'])
+@app.route('/update/<id>', methods=['PUT'])
 #Funktion fuer die PUT-Methode
-#def update_ausgabe(id):
-    #Ausgabe der Daten in JSON-Format
-#    ausgabe = Ausgaben.query.get(id)
+def update_ausgabe(id):
+    #Auslesen der Daten aus der Datenbank
+    ausgabe = Ausgaben.query.get(id)
     #Fehlermeldung wenn ID nicht gefunden wird
-#    if ausgabe is None:
-#        return {"Fehler": "ID nicht gefunden"}
+    if ausgabe is None:
+        return {"Fehler": "ID nicht gefunden"}
     #Ueberschreiben der Daten mit den neuen Werten
-#    ausgabe.name = request.json['name']
-#    ausgabe.betrag = request.json['betrag']
-#    ausgabe.datum = request.json['datum']
-#    ausgabe.kategorie = request.json['kategorie']
+    ausgabe = Ausgaben(name=request.form['name'], betrag=request.form['betrag'], datum=request.form['datum'], kategorie=request.form['kategorie'])
     #Speichern der Aenderungen
- #   db.session.commit()
+    db.session.commit()
     #Rueckgabemeldung bei erfolgreicher Aktualisierung
-#    return {"Erfolg": "Ausgabedaten aktualisiert"}
+    #Flash-Nachricht bei erfolgreicher Aktualisierung
+    flash('Ausgabe erfolgreich aktualisiert')
+    return {"Erfolg": "Ausgabedaten aktualisiert"}
 
 #DELETE-Methode fuer Ausgaben
 @app.route('/delete/<id>', methods=['DELETE'])
@@ -164,5 +111,4 @@ def delete_ausgabe(id):
     db.session.commit()
     #Flash-Nachricht bei erfolgreicher Loeschung
     flash('Ausgabe erfolgreich geloescht')
-    #Rueckgabemeldung bei erfolgreicher Loeschung
-    return redirect(url_for('index'))
+    return {"Erfolg": "Ausgabedaten geloescht"}

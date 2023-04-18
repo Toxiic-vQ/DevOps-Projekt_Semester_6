@@ -4,6 +4,39 @@
 {% block title %} Willkommen beim Ausgaben-Tracker {% endblock %}
 
 {% block body %}
+<!-- Skript fuer DELETE-Knopf -->
+<script>
+    function deleteEntry(id) {
+        fetch('/delete/' + id, { method: 'DELETE' })
+        .then(res => {
+            console.log(res);
+            window.location.reload();
+        })
+        .catch(err => console.error(err));
+    }
+
+    function updateEntry(id) {
+        const form = document.getElementById('update-form');
+        const url = '/update/' + id;
+        const formData = new FormData(form);
+        fetch(url, {
+            method: 'PUT',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/'; // Weiterleitung zur Startseite
+            } else {
+                throw new Error('Fehler beim Ändern der Daten');
+            }
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Fehler beim Ändern der Daten');
+        });
+    }
+</script>
+
 <div class="container">
     <!-- Abstand zum Header -->
     <br>
@@ -54,10 +87,11 @@
                             <td>{{eintrag.datum}}</th>
                             <td>{{eintrag.kategorie}}</th>
                             <td>
+                                <!--
                                 <a href="/update/{{eintrag.id}}" class="btn btn-primary" data-toggle="modal" data-target="#edit-modal{{eintrag.id}}" style="margin-right: 20px;">Bearbeiten</a>
-                                <form action="" method="DELETE">
-                                    <a href="/delete/{{eintrag.id}}" class="btn btn-danger">Löschen</a>
-                                </form>
+                                -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#edit-modal{{eintrag.id}}" style="margin-right: 20px;">Bearbeiten</button>
+                                <button type="button" class="btn btn-danger" onclick="deleteEntry('{{eintrag.id}}')">Löschen</button>
                             </th>
                         </tr>
 
@@ -70,7 +104,7 @@
                                         <h5 class="modal-title">Ausgabe bearbeiten</h5>
                                       </div>
                                       <div class="modal-body">
-                                        <form action="{{url_for('update_ausgabe')}}" method="POST">
+                                        <form id="update-form">
                                             <!-- Formularfelder -->
                                             <div class="form-group">
                                                 <label for="name">Name</label>
@@ -84,13 +118,14 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="datum">Datum (TT.MM.YYYY)</label>
-                                                <input type="text" class="form-control" name="datum" value="{{eintrag.betrag}}">
+                                                <input type="text" class="form-control" name="datum" value="{{eintrag.datum}}">
                                             </div>
                                             <div class="form-group">
                                                 <label for="kategorie">Kategorie</label>
                                                 <input type="text" class="form-control" name="kategorie" value="{{eintrag.kategorie}}">
                                             </div>
-                                            <button class="btn btn-primary" type="submit" style="margin-top: 5px; margin-bottom: 5px;">Änderungen speichern</button>
+                                            <button type="button" class="btn btn-primary" style="margin-top: 5px; margin-bottom: 5px;" onclick="updateEntry('{{eintrag.id}}')">Änderungen speichern</button>
+                                            <!-- <button type="button" class="btn btn-danger" onclick="deleteEntry('{{eintrag.id}}')">Löschen</button> -->
                                         </form>
                                         <!-- Fußzeile-->
                                         <div class="modal-footer">
