@@ -1,38 +1,154 @@
+<!-- Diese Datei erweitert den Inhalt des HTML-Dokuments base.html-->
 {% extends 'base.html' %}
 
-{% block content %}
-    <h1>{% block title %} Willkommen beim Ausgaben-Tracker {% endblock %}</h1>
+{% block title %} Willkommen beim Ausgaben-Tracker {% endblock %}
 
-        {% for ausgabe in Ausgaben %}
-            <a href="#">
-                <h2>{{ post['title'] }}</h2>
-            </a>
-            <span class="badge badge-primary">{{ post['created'] }}</span>
-            <hr>
-        {% endfor %}
+{% block body %}
+<div class="container">
+    <!-- Abstand zum Header -->
+    <br>
+    <br>
 
-        <br>
-        <br>
-        <br>
+    <!-- Titelleiste anpassen -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron p-3">
+                    <h2>Ausgaben verwalten</h2> <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#neuesmodal">Neue Ausgabe hinzufügen</button>
 
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Betrag</th>
-                <th>Datum</th>
-                <th></th>
-                <th></th>
-            </tr>
-            {% for ausgabe in ausgaben %}
-            <tr>
-                <td>{{ ausgabe[0] }}</td>
-                <td>{{ ausgabe[1] }}</td>
-                <td>{{ ausgabe[2] }}</td>
-                <td>{{ ausgabe[3] }}</td>
-                <td><a href="/edit/{{ ausgabe[0] }}">Bearbeiten</a></td>
-                <td><a href="/delete/{{ ausgabe[0] }}">Löschen</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% endblock %}
+                    <br>
+                    <br>
+                    <!-- Nachrichtenfeld, wenn neues Element erfolgreich angelegt wird-->
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">x</span>
+                                </button>
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <!-- Tabelle erstellen -->
+                    <table class="table table-hover table-dark">
+                        <!-- Tabellenkopf -->
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Betrag</th>
+                            <th>Datum</th>
+                            <th>Kategorie</th>
+                            <th>Optionen</th>
+                        </tr>
+
+                        <!-- Tabelleninhalt -->
+                        <!-- Hier werden die Daten aus der Datenbank ausgegeben -->
+                        {% for eintrag in eintraege %}
+
+                        <tr>
+                            <td>{{eintrag.id}}</td>
+                            <td>{{eintrag.name}}</th>
+                            <td style="text-align: right;">{{eintrag.betrag}} €</th>
+                            <td>{{eintrag.datum}}</th>
+                            <td>{{eintrag.kategorie}}</th>
+                            <td>
+                                <a href="/update/{{eintrag.id}}" class="btn btn-primary" data-toggle="modal" data-target="#edit-modal{{eintrag.id}}" style="margin-right: 20px;">Bearbeiten</a>
+                                <form action="" method="DELETE">
+                                    <a href="/delete/{{eintrag.id}}" class="btn btn-danger">Löschen</a>
+                                </form>
+                            </th>
+                        </tr>
+
+                        <!-- Modal für Ausgabe bearbeiten -->
+                        <!-- Diese Schaltflaeche erscheint beim Klicken beim Hinzufuegen neuer Ausgaben -->
+                        <div id="edit-modal{{eintrag.id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="edit-modal-label" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title">Ausgabe bearbeiten</h5>
+                                      </div>
+                                      <div class="modal-body">
+                                        <form action="{{url_for('update_ausgabe')}}" method="POST">
+                                            <!-- Formularfelder -->
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <!-- ID ist versteckt-->
+                                                <input type="hidden" name="id" value="{{eintrag.id}}">
+                                                <input type="text" class="form-control" name="name" value="{{eintrag.name}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="betrag">Betrag in €</label>
+                                                <input type="text" class="form-control" name="betrag" value="{{eintrag.betrag}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="datum">Datum (TT.MM.YYYY)</label>
+                                                <input type="text" class="form-control" name="datum" value="{{eintrag.betrag}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="kategorie">Kategorie</label>
+                                                <input type="text" class="form-control" name="kategorie" value="{{eintrag.kategorie}}">
+                                            </div>
+                                            <button class="btn btn-primary" type="submit" style="margin-top: 5px; margin-bottom: 5px;">Änderungen speichern</button>
+                                        </form>
+                                        <!-- Fußzeile-->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <!-- Ende der For-Schleife zur Ausgabe der Datenbank-Inhalte -->
+                        {% endfor %}
+
+                    </table>
+
+
+            </div>
+
+    <!-- Modal für neue Ausgabe -->
+    <!-- Diese Schaltflaeche erscheint beim Klicken beim Hinzufuegen neuer Ausgaben-->
+    <div id="neuesmodal" class="model fade" role="dialog" style="z-index: 9000; position: fixed; display: none; padding-top: 100px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Neue Ausgabe hinzufügen</h5>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('add_ausgabe')}}" method="POST">
+                    <!-- Formularfelder -->
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" name="name" required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="betrag">Betrag in €</label>
+                        <input type="number" step="0.01" class="form-control" name="betrag" required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="datum">Datum (TT.MM.YYYY)</label>
+                        <input type="text" class="form-control" name="datum" required="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="kategorie">Kategorie</label>
+                        <input type="text" class="form-control" name="kategorie" required="1">
+                    </div>
+                    <button class="btn btn-primary" type="submit" style="margin-top: 5px; margin-bottom: 5px;">Neuen Eintrag anlegen</button>
+                </form>
+                <!-- Fußzeile-->
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+                </div>
+                </div>
+          </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -7,11 +7,14 @@
 #Die API ist ueber http://127.0.0.1:5000/ erreichbar.
 
 #Importieren der noetigen Bibliotheken
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 
 #Erstellen der Flask-App
 app = Flask(__name__)
+#Schluessel fuer die Verschluesselung
+#notwendig fuer Flash-Nachrichten
+app.secret_key = "secret key"
 
 #Konfiguration der Datenbank
 #Angabe des Dateipfads zur Datenbank und des Datenbanktyps (SQLite)
@@ -55,74 +58,102 @@ class Ausgaben(db.Model):
 @app.route("/")
 #Erstellen der Funktion
 def index():
-    #return "Hallo"
-    return render_template("index.html")
+    #alle Ausgaben aus der Datenbank auslesen
+    alle_ausgaben = Ausgaben.query.all()
+    #Rueckgabe der Daten an die HTML-Seite
+    return render_template("index.html", eintraege = alle_ausgaben)
 
 #Erstellen der Route
 #GET-Request fuer alle Ausgaben
-@app.route("/ausgaben")
+#@app.route("/ausgaben")
 #Funktion fuer die GET-Methode
-def get_ausgaben():
-    ausgaben = Ausgaben.query.all()
+#def get_ausgaben():
+#    ausgaben = Ausgaben.query.all()
 
     #Ausgabe der Daten in JSON-Format
-    output = []
+#    output = []
     #Durchlaufen der Datenbank
-    for ausgabe in ausgaben:
-        #Erstellen eines JSON-Objekts
-        ausgabe_data = {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
-        #Liste mit den Daten anhaengen
-        output.append(ausgabe_data)
+#    for ausgabe in ausgaben:
+#        #Erstellen eines JSON-Objekts
+#        ausgabe_data = {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
+#        #Liste mit den Daten anhaengen
+#        output.append(ausgabe_data)
 
     #Rueckgabe der Daten
-    return {"Ausgaben": output}
+#    return {"Ausgaben": output}
 
 #GET Ausgaben nach ID
-@app.route('/ausgaben/<id>')
+#@app.route('/ausgaben/<id>')
 #Funktion fuer die GET-Methode
-def get_ausgabe(id):
+#def get_ausgabe(id):
     #Ausgabe der Daten in JSON-Format
-    ausgabe = Ausgaben.query.get_or_404(id)
+#    ausgabe = Ausgaben.query.get_or_404(id)
     #Rueckgabe der Daten als JSON-Objekt
-    return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
+#    return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
 
 #POST-Methode fuer Ausgaben
 @app.route('/ausgaben', methods=['POST'])
 #Funktion fuer die POST-Methode
 def add_ausgabe():
     #Erstellen eines neuen Ausgabe-Objekts
-    ausgabe = Ausgaben(name=request.json['name'], betrag=request.json['betrag'], datum=request.json['datum'], kategorie=request.json['kategorie'])
+    ausgabe = Ausgaben(name=request.form['name'], betrag=request.form['betrag'], datum=request.form['datum'], kategorie=request.form['kategorie'])
     #Hinzufuegen des Objekts zur Datenbank
     db.session.add(ausgabe)
     #Speichern der Aenderungen
     db.session.commit()
-    #als Rueckgabe wird die ID der neuen Ausgabe ausgegeben
-    return {'id': ausgabe.id}
+    #Flash
+    flash('Ausgabe erfolgreich hinzugefuegt')
+
+    return redirect(url_for('index'))
+
+#Ausgaben aktualisieren mit GET und POST
+@app.route('/update', methods=['GET', 'POST'])
+def update_ausgabe():
+    if request.method == 'POST':
+        #Datensatz mit der ID auslesen
+        ausgabe = Ausgaben.query.get(request.form.get('id'))
+        #Ueberschreiben der Daten mit den neuen Werten
+        ausgabe.name = request.form['name']
+        ausgabe.betrag = request.form['betrag']
+        ausgabe.datum = request.form['datum']
+        ausgabe.kategorie = request.form['kategorie']
+        #Speichern der Aenderungen
+        db.session.commit()
+        #Flash-Nachricht bei erfolgreicher Aktualisierung
+        flash('Ausgabe erfolgreich aktualisiert')
+
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('index'))
+
+
+
+
 
 #PUT-Methode fuer Ausgaben
-@app.route('/ausgaben/<id>', methods=['PUT'])
+#@app.route('/ausgaben/<id>', methods=['PUT'])
 #Funktion fuer die PUT-Methode
-def update_ausgabe(id):
+#def update_ausgabe(id):
     #Ausgabe der Daten in JSON-Format
-    ausgabe = Ausgaben.query.get(id)
+#    ausgabe = Ausgaben.query.get(id)
     #Fehlermeldung wenn ID nicht gefunden wird
-    if ausgabe is None:
-        return {"Fehler": "ID nicht gefunden"}
+#    if ausgabe is None:
+#        return {"Fehler": "ID nicht gefunden"}
     #Ueberschreiben der Daten mit den neuen Werten
-    ausgabe.name = request.json['name']
-    ausgabe.betrag = request.json['betrag']
-    ausgabe.datum = request.json['datum']
-    ausgabe.kategorie = request.json['kategorie']
+#    ausgabe.name = request.json['name']
+#    ausgabe.betrag = request.json['betrag']
+#    ausgabe.datum = request.json['datum']
+#    ausgabe.kategorie = request.json['kategorie']
     #Speichern der Aenderungen
-    db.session.commit()
+ #   db.session.commit()
     #Rueckgabemeldung bei erfolgreicher Aktualisierung
-    return {"Erfolg": "Ausgabedaten aktualisiert"}
+#    return {"Erfolg": "Ausgabedaten aktualisiert"}
 
 #DELETE-Methode fuer Ausgaben
-@app.route('/ausgaben/<id>', methods=['DELETE'])
+@app.route('/delete/<id>', methods=['DELETE'])
 #Funktion fuer die DELETE-Methode
 def delete_ausgabe(id):
-    #Ausgabe der Daten in JSON-Format
+    #Datensatz mit der ID auslesen
     ausgabe = Ausgaben.query.get(id)
     #Fehlermeldung wenn ID nicht gefunden wird
     if ausgabe is None:
@@ -131,5 +162,7 @@ def delete_ausgabe(id):
     db.session.delete(ausgabe)
     #Speichern der Aenderungen
     db.session.commit()
+    #Flash-Nachricht bei erfolgreicher Loeschung
+    flash('Ausgabe erfolgreich geloescht')
     #Rueckgabemeldung bei erfolgreicher Loeschung
-    return {"Erfolg": "Ausgabedaten geloescht"}
+    return redirect(url_for('index'))
