@@ -51,18 +51,38 @@ Die Funktionen der API können mit dem Linux-Befehl ``` curl ``` oder beispielsw
 <br>
 | Funktion | Eigenschaften | | curl-Befehl |
 |--------|-----------------|---------------|
-| GET | Alle Einträge ausgeben | ``` curl --location 'http://127.0.0.1:5000/ausgaben' ``` |
-| GET  | Einen Eintrag ausgeben (mit ID) | ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ``` |
-| POST | Einen Eintrag hinzufügen | ``` sudo docker build -t webapp . ``` |
-| PUT  | Einen Eintrag ändern (mit ID) | ``` curl --location --request PUT 'http://127.0.0.1:5000/update/2' \ |
-| | | --header 'Content-Type: application/json' \ |
-| | | --data '{ |
-| | |     "betrag": "79.99", |
-| | |     "datum": "16.04.2023", |
-| | |     "kategorie": "Auto", |
-| | |     "name": "Tanken" |
-| | | }' ``` |
-| DELETE | Einen Eintrag löschen (mit ID) | ``` curl --location --request DELETE 'http://127.0.0.1:5000/delete/1' ``` |
+
+#### GET - Alle Einträge ausgeben
+
+z.B. mit <br> ``` curl --location 'http://127.0.0.1:5000/ausgaben' ```
+<br>
+
+#### GET - Einen Eintrag ausgeben (mit ID)
+
+z.B. mit <br> ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ```
+<br>
+
+#### POST - Einen Eintrag hinzufügen
+
+z.B. mit <br> ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ```
+<br>
+
+#### PUT  - Einen Eintrag ändern (mit ID)
+
+die Daten müssen als JSON übergeben werden <br>
+z.B. mit <br>  ``` curl --location --request PUT 'http://127.0.0.1:5000/update/2' \
+--header 'Content-Type: application/json' \
+--data '{
+    "betrag": "79.99",
+    "datum": "16.04.2023",
+    "kategorie": "Auto",
+    "name": "Tanken"
+}' ```
+<br>
+
+#### DELETE - Einen Eintrag löschen (mit ID)
+
+z.B. mit <br> ``` curl --location --request DELETE 'http://127.0.0.1:5000/delete/1' ``` |
 <br>
 
 ## Zur Datenbank
