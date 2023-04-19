@@ -49,8 +49,6 @@ Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
 
 Die Funktionen der API können mit dem Linux-Befehl ``` curl ``` oder beispielsweise der Anwendung Postman getestet werden. <br>
 <br>
-| Funktion | Eigenschaften | | curl-Befehl |
-|--------|-----------------|---------------|
 
 #### GET - Alle Einträge ausgeben
 
@@ -69,7 +67,7 @@ z.B. mit <br> ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ```
 
 #### PUT  - Einen Eintrag ändern (mit ID)
 
-die Daten müssen als JSON übergeben werden <br>
+**Hinweis:** die Daten müssen als JSON übergeben werden <br>
 z.B. mit <br>  ``` curl --location --request PUT 'http://127.0.0.1:5000/update/2' \
 --header 'Content-Type: application/json' \
 --data '{
