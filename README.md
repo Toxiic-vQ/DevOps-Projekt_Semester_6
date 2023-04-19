@@ -8,6 +8,7 @@ Erstellung einer Webapplikation bzw. einer API
 - [Projektaufbau](#projektaufbau)
 - [Zur API](#zur-api)
 - [API mit Docker ausführen](#api-mit-docker-ausführen)
+- [API testen](#api-testen)
 - [Zur Datenbank](#zur-datenbank)
 <br>
 
@@ -32,8 +33,6 @@ Die Datenbank ist in SQLite erstellt und wird mit SQLAlchemy verwaltet. <br>
 Die API ist ueber http://127.0.0.1:5000/ lokal erreichbar. (Port 5000 ist Standard für Flask-Anwendungen) <br>
 <br>
 
-<br>
-
 ### API mit Docker ausführen
 
 Zur Ausführung der Anwendung in einem Docker-Container wurde speziell ein Dockerfile angefertigt. <br>
@@ -44,6 +43,26 @@ Zur Ausführung der Anwendung in einem Docker-Container wurde speziell ein Docke
 4. Nach erfolgreichem Bauen kann der Container gestartet werden mit ``` sudo docker run -it -p 5000:5000 webapp ``` <br>
 <br>
 Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
+<br>
+
+### API testen
+
+Die Funktionen der API können mit dem Linux-Befehl ``` curl ``` oder beispielsweise der Anwendung Postman getestet werden. <br>
+<br>
+| Funktion | Eigenschaften | | curl-Befehl |
+|--------|-----------------|---------------|
+| GET | Alle Einträge ausgeben | ``` curl --location 'http://127.0.0.1:5000/ausgaben' ``` |
+| GET  | Einen Eintrag ausgeben (mit ID) | ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ``` |
+| POST | Einen Eintrag hinzufügen | ``` sudo docker build -t webapp . ``` |
+| PUT  | Einen Eintrag ändern (mit ID) | ``` curl --location --request PUT 'http://127.0.0.1:5000/update/2' \
+--header 'Content-Type: application/json' \
+--data '{
+    "betrag": "79.99",
+    "datum": "16.04.2023",
+    "kategorie": "Auto",
+    "name": "Tanken"
+}' ``` |
+| DELETE | Einen Eintrag löschen (mit ID) | ``` curl --location --request DELETE 'http://127.0.0.1:5000/delete/1' ``` |
 <br>
 
 ## Zur Datenbank
