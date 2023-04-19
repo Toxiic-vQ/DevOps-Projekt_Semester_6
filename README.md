@@ -69,12 +69,12 @@ z.B. mit <br> ``` curl --request POST 'http://127.0.0.1:5000/ausgaben' --data 'n
 #### PUT  - Einen Eintrag ändern (mit ID)
 
 **Hinweis:** Die Daten müssen zwingend als JSON übergeben werden. <br>
-z.B. mit <br>  ``` curl --location --request PUT 'http://127.0.0.1:5000/update/1' --header 'Content-Type: application/json' --data '{"name": "Parken","betrag": "0.50","datum": "13.04.2023","kategorie": "Auto"}' ```
+z.B. mit <br>  ``` curl --request PUT 'http://127.0.0.1:5000/update/1' --header 'Content-Type: application/json' --data '{"name": "Parken","betrag": "0.50","datum": "13.04.2023","kategorie": "Auto"}' ```
 <br>
 
 #### DELETE - Einen Eintrag löschen (mit ID)
 
-z.B. mit <br> ``` curl --location --request DELETE 'http://127.0.0.1:5000/delete/1' ``` |
+z.B. mit <br> ``` curl --request DELETE 'http://127.0.0.1:5000/delete/1' ```
 <br>
 
 ## Zur Datenbank
