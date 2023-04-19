@@ -62,7 +62,7 @@ z.B. mit <br> ``` curl --request GET 'http://127.0.0.1:5000/ausgaben/1' ```
 
 #### POST - Einen Eintrag hinzufügen
 
-**Hinweis:** Aufgrund einer automatischen Umleitung kann es zu einer Fehlermeldung kommen, die Änderungen werden jedoch umgesetzt.
+**Hinweis:** Aufgrund einer automatischen Umleitung kann es zu einer Fehlermeldung kommen, die Änderungen werden jedoch umgesetzt. <br>
 z.B. mit <br> ``` curl --request POST 'http://127.0.0.1:5000/ausgaben' --data 'name=Tanken&betrag=79.99&datum=16.04.2023&kategorie=Auto' ```
 <br>
 
