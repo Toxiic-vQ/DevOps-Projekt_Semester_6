@@ -5,6 +5,7 @@ Erstellung einer Webapplikation bzw. einer API
 ## Inhaltsverzeichnis
 
 - [Zum Projekt](#zum-projekt)
+- [Projektaufbau](#projektaufbau)
 - [Zur API](#zur-api)
 - [API mit Docker ausführen](#api-mit-docker-ausführen)
 - [Zur Datenbank](#zur-datenbank)
@@ -14,6 +15,13 @@ Erstellung einer Webapplikation bzw. einer API
 
 **Thema des Projekts:** Ausgaben-Tracker <br>
 **Zweck:** Anwendung zum Erfassen von getätigten Ausgaben <br>
+<br>
+<img src="Abbildungen README/Frontend.png" alt="Übersicht mit Frontend des Projekts" title="Frontend des Projekts">
+<br>
+
+### Projektaufbau
+
+<img src="Abbildungen README/Projektaufbau.png" alt="Übersicht mit Projektaufbau" title="Projektaufbau">
 <br>
 
 ## Zur API
