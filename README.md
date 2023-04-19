@@ -80,6 +80,7 @@ z.B. mit <br>  ``` curl --request PUT 'http://127.0.0.1:5000/update/1' --header 
 
 z.B. mit <br> ``` curl --request DELETE 'http://127.0.0.1:5000/delete/1' ```
 <br>
+<br>
 
 ## Zur Datenbank
 
