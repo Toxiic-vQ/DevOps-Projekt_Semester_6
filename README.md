@@ -54,14 +54,14 @@ Die Funktionen der API können mit dem Linux-Befehl ``` curl ``` oder beispielsw
 | GET | Alle Einträge ausgeben | ``` curl --location 'http://127.0.0.1:5000/ausgaben' ``` |
 | GET  | Einen Eintrag ausgeben (mit ID) | ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ``` |
 | POST | Einen Eintrag hinzufügen | ``` sudo docker build -t webapp . ``` |
-| PUT  | Einen Eintrag ändern (mit ID) | ``` curl --location --request PUT 'http://127.0.0.1:5000/update/2' \
---header 'Content-Type: application/json' \
---data '{
-    "betrag": "79.99",
-    "datum": "16.04.2023",
-    "kategorie": "Auto",
-    "name": "Tanken"
-}' ``` |
+| PUT  | Einen Eintrag ändern (mit ID) | ``` curl --location --request PUT 'http://127.0.0.1:5000/update/2' \ |
+| | | --header 'Content-Type: application/json' \ |
+| | | --data '{ |
+| | |     "betrag": "79.99", |
+| | |     "datum": "16.04.2023", |
+| | |     "kategorie": "Auto", |
+| | |     "name": "Tanken" |
+| | | }' ``` |
 | DELETE | Einen Eintrag löschen (mit ID) | ``` curl --location --request DELETE 'http://127.0.0.1:5000/delete/1' ``` |
 <br>
 
