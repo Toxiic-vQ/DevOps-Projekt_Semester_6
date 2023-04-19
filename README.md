@@ -52,30 +52,24 @@ Die Funktionen der API können mit dem Linux-Befehl ``` curl ``` oder beispielsw
 
 #### GET - Alle Einträge ausgeben
 
-z.B. mit <br> ``` curl --location 'http://127.0.0.1:5000/ausgaben' ```
+z.B. mit <br> ``` curl --request GET 'http://127.0.0.1:5000/ausgaben' ```
 <br>
 
 #### GET - Einen Eintrag ausgeben (mit ID)
 
-z.B. mit <br> ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ```
+z.B. mit <br> ``` curl --request GET 'http://127.0.0.1:5000/ausgaben/1' ```
 <br>
 
 #### POST - Einen Eintrag hinzufügen
 
-z.B. mit <br> ``` curl --location 'http://127.0.0.1:5000/ausgaben/2' ```
+**Hinweis:** Aufgrund einer automatischen Umleitung kann es zu einer Fehlermeldung kommen, die Änderungen werden jedoch umgesetzt.
+z.B. mit <br> ``` curl --request POST 'http://127.0.0.1:5000/ausgaben' --data 'name=Tanken&betrag=79.99&datum=16.04.2023&kategorie=Auto' ```
 <br>
 
 #### PUT  - Einen Eintrag ändern (mit ID)
 
-**Hinweis:** die Daten müssen als JSON übergeben werden <br>
-z.B. mit <br>  ``` curl --location --request PUT 'http://127.0.0.1:5000/update/2' \
---header 'Content-Type: application/json' \
---data '{
-    "betrag": "79.99",
-    "datum": "16.04.2023",
-    "kategorie": "Auto",
-    "name": "Tanken"
-}' ```
+**Hinweis:** Die Daten müssen zwingend als JSON übergeben werden. <br>
+z.B. mit <br>  ``` curl --location --request PUT 'http://127.0.0.1:5000/update/1' --header 'Content-Type: application/json' --data '{"name": "Parken","betrag": "0.50","datum": "13.04.2023","kategorie": "Auto"}' ```
 <br>
 
 #### DELETE - Einen Eintrag löschen (mit ID)
