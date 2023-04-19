@@ -9,6 +9,10 @@ Erstellung einer Webapplikation bzw. einer API
 - [Zur API](#zur-api)
 - [API mit Docker ausführen](#api-mit-docker-ausführen)
 - [API testen](#api-testen)
+  - [GET-Methode](#get---alle-einträge-ausgeben)
+  - [POST-Methode](#post---einen-eintrag-hinzufügen)
+  - [PUT-Methode](#put---einen-eintrag-ändern-mit-id)
+  - [DELETE-Methode](#delete---einen-eintrag-löschen-mit-id)
 - [Zur Datenbank](#zur-datenbank)
 <br>
 
@@ -47,7 +51,7 @@ Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
 
 ### API testen
 
-Die Funktionen der API können mit dem Linux-Befehl ``` curl ``` oder beispielsweise der Anwendung Postman getestet werden. <br>
+Die Funktionen der API können beispielsweise mit dem Linux-Befehl ``` curl ``` oder  der Anwendung [Postman](https://www.postman.com/downloads/) getestet werden. <br>
 <br>
 
 #### GET - Alle Einträge ausgeben
