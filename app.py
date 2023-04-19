@@ -63,6 +63,35 @@ def index():
     #Rueckgabe der Daten an die HTML-Seite
     return render_template("index.html", eintraege = alle_ausgaben)
 
+#GET-Requests können beispielsweise mit Postman getestet werden.
+#GET-Requests werden jedoch nicht zwingend für das Frontend benötigt.
+#GET-Request fuer alle Ausgaben
+@app.route("/ausgaben")
+#Funktion fuer die GET-Methode
+def get_ausgaben():
+    ausgaben = Ausgaben.query.all()
+
+    #Ausgabe der Daten in JSON-Format
+    output = []
+    #Durchlaufen der Datenbank
+    for ausgabe in ausgaben:
+        #Erstellen eines JSON-Objekts
+        ausgabe_data = {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
+        #Liste mit den Daten anhaengen
+        output.append(ausgabe_data)
+
+    #Rueckgabe der Daten
+    return {"Ausgaben": output}
+
+#GET-Request nach ID
+@app.route('/ausgaben/<id>')
+#Funktion fuer die GET-Methode
+def get_ausgabe(id):
+    #Ausgabe der Daten in JSON-Format
+    ausgabe = Ausgaben.query.get_or_404(id)
+    #Rueckgabe der Daten als JSON-Objekt
+    return {'name': ausgabe.name, 'betrag': ausgabe.betrag, 'datum': ausgabe.datum, 'kategorie': ausgabe.kategorie}
+
 #POST-Methode fuer Ausgaben
 @app.route('/ausgaben', methods=['POST'])
 #Funktion fuer die POST-Methode
@@ -79,25 +108,27 @@ def add_ausgabe():
     return redirect(url_for('index'))
 
 #PUT-Methode fuer Ausgaben
-#@app.route('/update/<id>', methods=['PUT'])
+#diese Methode kann ueber Postman getestet werden (Daten muessen als JSON uebergeben werden)
+#jedoch wird sie nicht ueber das Frontend verwendet, da leider im Rahmen des Projekts die Implementierung der PUT-Methode fuer die HTML-Schaltflaechen fehlschlug
+@app.route('/update/<id>', methods=['PUT'])
 #Funktion fuer die PUT-Methode
-#def update_ausgabe(id):
-#    #Auslesen der Daten aus der Datenbank
-#    ausgabe = Ausgaben.query.get(id)
-#    #Fehlermeldung wenn ID nicht gefunden wird
-#    if ausgabe is None:
-#        return {"Fehler": "ID nicht gefunden"}
-#    #Ueberschreiben der Daten mit den neuen Werten
-#    ausgabe.name = request.form['name']
-#    ausgabe.betrag = request.form['betrag']
-#    ausgabe.datum = request.form['datum']
-#    ausgabe.kategorie = request.form['kategorie']
-#    #Speichern der Aenderungen
-#    db.session.commit()
-#    #Flash-Nachricht bei erfolgreicher Aktualisierung
-#    flash('Ausgabe erfolgreich aktualisiert')
-#    #Rueckgabemeldung bei erfolgreicher Aktualisierung
-#    return {"Erfolg": "Ausgabedaten aktualisiert"}
+def update_ausgabe_id(id):
+    #Auslesen der Daten aus der Datenbank
+    ausgabe = Ausgaben.query.get(id)
+    #Fehlermeldung wenn ID nicht gefunden wird
+    if ausgabe is None:
+        return {"Fehler": "ID nicht gefunden"}
+    #Ueberschreiben der Daten mit den neuen Werten
+    ausgabe.name = request.json['name']
+    ausgabe.betrag = request.json['betrag']
+    ausgabe.datum = request.json['datum']
+    ausgabe.kategorie = request.json['kategorie']
+    #Speichern der Aenderungen
+    db.session.commit()
+    #Flash-Nachricht bei erfolgreicher Aktualisierung
+    flash('Ausgabe erfolgreich aktualisiert')
+    #Rueckgabemeldung bei erfolgreicher Aktualisierung
+    return {"Erfolg": "Ausgabedaten aktualisiert"}
 
 #Aendern der PUT-Methode auf POST
 #die Implementierung im Rahmen dieses Projekts mit PUT funktioniert nicht
