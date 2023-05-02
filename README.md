@@ -34,7 +34,7 @@ Erstellung einer Webapplikation bzw. einer API
 Die API ist in Python mit dem Flask-Framework geschrieben. <br>
 Die Datenbank ist in SQLite erstellt und wird mit SQLAlchemy verwaltet. <br>
 <br>
-Die API ist ueber http://127.0.0.1:5000/ lokal erreichbar. (Port 5000 ist Standard für Flask-Anwendungen) <br>
+Die API ist über http://127.0.0.1:5000/ lokal erreichbar. (Port 5000 ist Standard für Flask-Anwendungen) <br>
 <br>
 
 ### API mit Docker ausführen
