@@ -1,0 +1,28 @@
+#Name des Workflows
+name: Pytests fuer REST-API
+
+#Workflow wird gestartet bei...
+#...einer Aenderung auf dem Master-Branch
+#...einem Pull-Request
+#...manuellem Eingereifen (workflow_dispatch)
+
+on:
+#  push:
+#    branches:
+#      - master
+#  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker Image
+      run: docker build -t ausgaben_tracker .
+
+    - name: Run Tests with pytest
+      run: docker run ausgaben_tracker pipenv run pytest

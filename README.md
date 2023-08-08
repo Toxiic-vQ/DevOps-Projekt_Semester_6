@@ -53,6 +53,8 @@ Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
 
 Die Funktionen der API können beispielsweise mit dem Linux-Befehl ``` curl ``` oder  der Anwendung [Postman](https://www.postman.com/downloads/) getestet werden. <br>
 <br>
+Zusätzlich dazu existiert ein [GitHub-Workflow](https://github.com/Toxiic-vQ/DevOps-Projekt_Semester_6/tree/master/.github/workflows), welcher die GET-, POST-, PUT- und DELETE-Methode der Rest-API mit eigens angelegten Pytests automatisch testet. <br>
+<br>
 
 #### GET - Alle Einträge ausgeben
 

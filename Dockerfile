@@ -17,8 +17,12 @@ COPY . /usr/src/app
 #Installieren der Abhaengigkeiten
 RUN pipenv install --system --deploy
 
+#Installieren von der Pakete "pytest" und "requests" im globalen Python-System
+#Diese Pakete werden fuer die Ausfuehrung der bereits definierten Testfaelle benoetigt
+RUN pip install pytest requests
+
 #Port 5000 freigeben
 EXPOSE 5000
 
 #Starten der Anwendung
-ENTRYPOINT ["/usr/src/app/start.sh"]
+CMD ["pipenv", "run", "flask", "run", "--host=0.0.0.0", "--port=5000"]
