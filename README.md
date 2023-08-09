@@ -43,8 +43,8 @@ Zur Ausführung der Anwendung in einem Docker-Container wurde speziell ein Docke
 
 1. Dateien aus diesem Verzeichnis lokal herunterladen <br>
 2. Ins Verzeichnis wechseln <br>
-3. Docker-Container bauen mit  ``` sudo docker build -t webapp . ``` <br>
-4. Nach erfolgreichem Bauen kann der Container gestartet werden mit ``` sudo docker run -it -p 5000:5000 webapp ``` <br>
+3. Docker-Container bauen mit  ``` sudo docker build -t ausgaben_tracker . ``` <br>
+4. Nach erfolgreichem Bauen kann der Container mit ``` sudo docker run -it -p 5000:5000 ausgaben_tracker ``` gestartet werden<br>
 <br>
 Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
 <br>
@@ -53,7 +53,7 @@ Die API ist jetzt unter http://127.0.0.1:5000/ lokal erreichbar. <br>
 
 Die Funktionen der API können beispielsweise mit dem Linux-Befehl ``` curl ``` oder  der Anwendung [Postman](https://www.postman.com/downloads/) getestet werden. <br>
 <br>
-Zusätzlich dazu existiert ein [GitHub-Workflow](https://github.com/Toxiic-vQ/DevOps-Projekt_Semester_6/tree/master/.github/workflows), welcher die GET-, POST-, PUT- und DELETE-Methode der Rest-API mit eigens angelegten Pytests automatisch testet. <br>
+Zusätzlich dazu existiert ein [GitHub-Workflow](https://github.com/Toxiic-vQ/DevOps-Projekt_Semester_6/blob/master/.github/workflows/test_rest-api.yml), welcher die GET-, POST-, PUT- und DELETE-Methode der Rest-API mit eigens angelegten Pytests automatisch testet. <br>
 <br>
 
 #### GET - Alle Einträge ausgeben
@@ -86,7 +86,7 @@ z.B. mit <br> ``` curl --request DELETE 'http://127.0.0.1:5000/delete/1' ```
 
 ## Zur Datenbank
 
-Die Datenbank basiert auf SQLite und ist innerhalb der Datei instance/ausgaben.db gespeichert. <br>
+Die Datenbank basiert auf SQLite und ist innerhalb der Datei instance/data.db gespeichert. <br>
 Aufgrund der geringen Komplexität der Webanwendung enthält die Datenbank nur eine Tabelle. <br>
 <br>
 | Spalte | Eigenschaften |
