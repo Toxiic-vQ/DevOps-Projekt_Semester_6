@@ -1,0 +1,40 @@
+#Name des Workflows
+name: Release erstellen
+
+#Workflow wird gestartet bei...
+#...manuellem Eingereifen (workflow_dispatch)
+#...erfolgreichem Durchlauf des Test-Workflows
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Pytests fuer REST-API"
+    types:
+      - completed
+
+jobs:
+  #Job zum Erstellen des Releases
+  create_release:
+    #Job wird nur gestartet, wenn die Tests erfolgreich waren
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    #Ubuntu-Image wird verwendet
+    runs-on: ubuntu-latest
+
+    steps:
+    #Repository wird ausgecheckt
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    #Aktuelles Datum als Umgebungsvariable gespeichert
+    - name: Set Current Date
+      id: set-date
+      run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+    #Release wird erstellt
+    - name: Create release
+      run: |
+        TAGNAME=${{ github.ref_name }}
+        hub release create -m "Flask_Dev" -t "master" "release-$CURRENT_DATE"
+      env:
+        GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}

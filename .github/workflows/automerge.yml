@@ -1,19 +1,20 @@
-# This is a basic workflow to help you get started with Actions
-
+#Name des Workflows
 name: AutoMerge
 
-# Controls when the workflow will run
+#Workflow wird gestartet bei einem Pull-Request
+
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   pull_request:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  #Job zum automatischen Mergen von Pull-Requests von Dependabot
   auto-merge:
+    #Ubuntu-Image wird verwendet
     runs-on: ubuntu-latest
     steps:
+      #Repository wird ausgecheckt
       - uses: actions/checkout@v3
+      #Pull-Request von Dependabot wird gemerged
       - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
           target: minor

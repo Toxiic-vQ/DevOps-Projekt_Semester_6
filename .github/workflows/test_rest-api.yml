@@ -7,22 +7,27 @@ name: Pytests fuer REST-API
 #...manuellem Eingereifen (workflow_dispatch)
 
 on:
-#  push:
-#    branches:
-#      - master
-#  pull_request:
+  push:
+    branches:
+      - master
+  pull_request:
   workflow_dispatch:
 
 jobs:
+  #Job zum Ausfuehren von Pytests
   test:
+    #Ubuntu-Image wird verwendet
     runs-on: ubuntu-latest
 
     steps:
+    #Repository wird ausgecheckt
     - name: Checkout Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
+    #Docker-Image wird erstellt
     - name: Build Docker Image
       run: docker build -t ausgaben_tracker .
 
+    #Pytests werden in Docker-Container ausgefuehrt
     - name: Run Tests with pytest
       run: docker run ausgaben_tracker pipenv run pytest
