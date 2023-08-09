@@ -5,8 +5,17 @@
 
 version: 2
 updates:
-  - package-ecosystem: "pip" # See documentation for possible values
-    directory: "/" # Location of package manifests
-    #versioning-strategy: lockfile-only
+
+  #nach Aktualisierungen in Pipfile und Pipfile.lock suchen
+  - package-ecosystem: "pip"
+    directory: "/"
+    #jeden Tag nach Aktualisierungen suchen
+    schedule:
+      interval: "daily"
+
+  #nach Aktualisierungen in GitHub-Workflows suchen
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    #jeden Tag nach Aktualisierungen suchen
     schedule:
       interval: "daily"
