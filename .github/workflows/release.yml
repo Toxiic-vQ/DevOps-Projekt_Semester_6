@@ -35,6 +35,6 @@ jobs:
     - name: Create release
       run: |
         TAGNAME=${{ github.ref_name }}
-        hub release create -m "Flask_Dev" -t "master" "release-$CURRENT_DATE"
+        hub release create -m "Ausgaben_Tracker" -t "master" "release-$CURRENT_DATE"
       env:
         GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
