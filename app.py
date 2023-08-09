@@ -2,7 +2,6 @@
 #Die API ist in Python mit dem Flask-Framework geschrieben.
 #Die Datenbank ist in SQLite erstellt und wird mit SQLAlchemy verwaltet.
 
-#Die API kann ueber die Datei ./start.sh gestartet werden.
 #Die API ist ueber http://127.0.0.1:5000/ erreichbar.
 
 #Importieren der noetigen Bibliotheken
@@ -63,8 +62,8 @@ def index():
     #Rueckgabe der Daten an die HTML-Seite
     return render_template("index.html", eintraege = alle_ausgaben)
 
-#GET-Requests können beispielsweise mit Postman getestet werden.
-#GET-Requests werden jedoch nicht zwingend für das Frontend benötigt.
+#GET-Requests koennen beispielsweise mit Postman getestet werden.
+#GET-Requests werden jedoch nicht zwingend fuer das Frontend benoetigt.
 #GET-Request fuer alle Ausgaben
 @app.route("/ausgaben")
 #Funktion fuer die GET-Methode

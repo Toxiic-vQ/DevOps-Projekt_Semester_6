@@ -17,7 +17,7 @@ COPY . /usr/src/app
 #Installieren der Abhaengigkeiten
 RUN pipenv install --system --deploy
 
-#Installieren von der Pakete "pytest" und "requests" im globalen Python-System
+#Installieren der Pakete "pytest" und "requests" im globalen Python-System
 #Diese Pakete werden fuer die Ausfuehrung der bereits definierten Testfaelle benoetigt
 RUN pip install pytest requests
 
