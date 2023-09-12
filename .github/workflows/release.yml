@@ -1,23 +1,20 @@
 #Name des Workflows
 name: Release erstellen
 
-#Workflow wird gestartet bei...
-#...manuellem Eingereifen (workflow_dispatch)
-#...erfolgreichem Durchlauf des Test-Workflows
+#Workflow wird gestartet... 
+#...bei manuellem Eingereifen (workflow_dispatch)
+#...ein Mal im Monat am ersten Tag um 00:00 Uhr UTC
 
 on:
   workflow_dispatch:
-  workflow_run:
-    workflows:
-      - "Pytests fuer REST-API"
-    types:
-      - completed
+  schedule:
+    # Job wird um 00:00 Uhr UTC am ersten Tag jedes Monats gestartet
+    - cron: '0 0 1 * *'
+      
 
 jobs:
   #Job zum Erstellen des Releases
   create_release:
-    #Job wird nur gestartet, wenn die Tests erfolgreich waren
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     #Ubuntu-Image wird verwendet
     runs-on: ubuntu-latest
 
