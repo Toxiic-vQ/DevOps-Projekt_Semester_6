@@ -28,6 +28,10 @@ jobs:
       id: set-date
       run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
+    #Installiere Anwendung "hub" zum Erstellen des Release
+    - name: Install hub
+      run: sudo apt install hub -y
+
     #Release wird erstellt
     - name: Create release
       run: |
