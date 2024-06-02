@@ -1,6 +1,6 @@
 #Container zur Ausfuehrung der Anwendung
-#leichtgewichtiger Python-Container basierend auf Alpine Linux mit Python 3.12.2
-FROM python:3.12.2-alpine
+#leichtgewichtiger Python-Container basierend auf Alpine Linux mit Python 3.10.0
+FROM python:3.10.0-alpine
 
 #Aktualisierung der Paketliste
 RUN apk update

@@ -1,11 +1,15 @@
 {
     "_meta": {
         "hash": {
+<<<<<<< HEAD
             "sha256": "4450161115792f5e17975f43a78ad2312b251a3aec25cb52328adcbce10a6ef9"
+=======
+            "sha256": "63a07b4da74cebcc3d553fc1d9b27a92215fc003d6e80386b6838b1c4ad2ec51"
+>>>>>>> parent of 1139426 (Update auf Python 3.12.2)
         },
         "pipfile-spec": 6,
         "requires": {
-            "python_version": "3.12.2"
+            "python_version": "3.10"
         },
         "sources": [
             {
