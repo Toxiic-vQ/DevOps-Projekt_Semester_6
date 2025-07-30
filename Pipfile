@@ -12,7 +12,7 @@ greenlet = "==3.2.3"
 itsdangerous = "==2.2.0"
 jinja2 = "==3.1.6"
 markupsafe = "==3.0.2"
-sqlalchemy = "==2.0.41"
+sqlalchemy = "==2.0.42"
 typing-extensions = "==4.14.1"
 werkzeug = "==3.1.3"
 
