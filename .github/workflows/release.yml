@@ -21,7 +21,7 @@ jobs:
     steps:
     #Repository wird ausgecheckt
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     #Aktuelles Datum als Umgebungsvariable gespeichert
     - name: Set Current Date

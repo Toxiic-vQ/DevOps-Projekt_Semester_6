@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       #Repository wird ausgecheckt
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       #Pull-Request von Dependabot wird gemerged
       - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
