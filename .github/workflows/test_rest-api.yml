@@ -22,7 +22,7 @@ jobs:
     steps:
     #Repository wird ausgecheckt
     - name: Checkout Repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     #Docker-Image wird erstellt
     - name: Build Docker Image
