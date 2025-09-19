@@ -5,7 +5,7 @@ name = "pypi"
 
 [packages]
 blinker = "==1.9.0"
-click = "==8.2.1"
+click = "==8.3.0"
 flask = "==3.1.2"
 flask-sqlalchemy = "==3.1.1"
 greenlet = "==3.2.4"
