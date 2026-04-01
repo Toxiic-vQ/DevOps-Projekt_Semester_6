@@ -113,7 +113,8 @@ def add_ausgabe():
 #Funktion fuer die PUT-Methode
 def update_ausgabe_id(id):
     #Auslesen der Daten aus der Datenbank
-    ausgabe = Ausgaben.query.get(id)
+    ausgabe = db.session.get(Ausgaben, id) #ausgabe = Ausgaben.query.get(id)
+
     #Fehlermeldung wenn ID nicht gefunden wird
     if ausgabe is None:
         return {"Fehler": "ID nicht gefunden"}
@@ -160,7 +161,7 @@ def update_ausgabe():
 #Funktion fuer die DELETE-Methode
 def delete_ausgabe(id):
     #Datensatz mit der ID auslesen
-    ausgabe = Ausgaben.query.get(id)
+    ausgabe = db.session.get(Ausgaben, id) #ausgabe = Ausgaben.query.get(id)
     #Fehlermeldung wenn ID nicht gefunden wird
     if ausgabe is None:
         return {"Fehler": "ID nicht gefunden"}

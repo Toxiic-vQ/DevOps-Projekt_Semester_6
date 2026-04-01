@@ -1,9 +1,9 @@
 #Container zur Ausfuehrung der Anwendung
-#leichtgewichtiger Python-Container basierend auf Alpine Linux mit Python 3.10.0
-FROM python:3.10.0-alpine
+#leichtgewichtiger Python-Container basierend auf Debian mit Python 3.13.0
+FROM python:3.13.0-slim
 
 #Aktualisierung der Paketliste
-RUN apk update
+RUN apt-get update
 
 #Installieren von pipenv
 RUN pip install pipenv
