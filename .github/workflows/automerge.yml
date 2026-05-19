@@ -1,21 +1,30 @@
 #Name des Workflows
-name: AutoMerge
+name: Auto-merge Dependabot PRs
 
 #Workflow wird gestartet bei einem Pull-Request
+on: pull_request
 
-on:
-  pull_request:
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   #Job zum automatischen Mergen von Pull-Requests von Dependabot
   auto-merge:
     #Ubuntu-Image wird verwendet
     runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
     steps:
-      #Repository wird ausgecheckt
-      - uses: actions/checkout@v6
-      #Pull-Request von Dependabot wird gemerged
-      - uses: ahmadnassri/action-dependabot-auto-merge@v2
-        with:
-          target: minor
-          github-token: ${{secrets.MERGE_SECRET}}
+      #Pull-Request bestaetigen
+      - name: Approve PR
+        run: gh pr review --approve "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ github.token }}
+
+      #Pull-Request mergen
+      - name: Enable auto-merge
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ github.token }}
